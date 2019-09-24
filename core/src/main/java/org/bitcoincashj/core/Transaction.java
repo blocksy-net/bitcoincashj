@@ -99,13 +99,13 @@ public class Transaction extends ChildMessage {
     /**
      * If feePerKb is lower than this, Bitcoin Core will treat it as if there were no fee.
      */
-    public static final Coin REFERENCE_DEFAULT_MIN_TX_FEE = Coin.valueOf(5000); // 0.05 mBTC
+    public static final Coin REFERENCE_DEFAULT_MIN_TX_FEE = Coin.valueOf(1000); // 0.01 mBTC
 
     /**
      * If using this feePerKb, transactions will get confirmed within the next couple of blocks.
      * This should be adjusted from time to time. Last adjustment: February 2017.
      */
-    public static final Coin DEFAULT_TX_FEE = Coin.valueOf(100000); // 1 mBTC
+    public static final Coin DEFAULT_TX_FEE = Coin.valueOf(5000); // 0.5 mBTC
 
     /**
      * Any standard (ie pay-to-address) output smaller than this value (in satoshis) will most likely be rejected by the network.
