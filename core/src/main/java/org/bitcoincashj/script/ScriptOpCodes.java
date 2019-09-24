@@ -145,6 +145,27 @@ public class ScriptOpCodes {
     // block state
     /** Check lock time of the block. Introduced in BIP 65, replacing OP_NOP2 */
     public static final int OP_CHECKLOCKTIMEVERIFY = 0xb1;
+    /** Check sequence verify - prevents non-final transaction from being included in a block until the input has
+     *  reached the given age. Introduced in BIP 112, replacing OP_NOP3 */
+    public static final int OP_CHECKSEQUENCEVERIFY = 0xb2;
+
+    // additional crypto
+    /** Check whether a signature is valid with respect to a message hash and and a public key. */
+    public static final int OP_CHECKDATASIG = 0xba;
+    public static final int OP_CHECKDATASIGVERIFY = 0xbb;
+    // multi-byte opcodes
+    /**
+     * Reserved range for multi-byte opcodes
+     * per https://github.com/Bitcoin-ABC/bitcoin-abc/commit/b76f72e9e684fd19b300e59fd1de590cd1b46b48
+     */
+    public static final int OP_PREFIX_BEGIN = 0xf0;
+    public static final int OP_PREFIX_END = 0xf7;
+    // template matching params
+    // *NOT* real opcodes.  If found in real Script, they can be interpreted as OP_UNKNOWN
+    public static final int OP_SMALLINTEGER = 0xfa;
+    public static final int OP_PUBKEYS = 0xfb;
+    public static final int OP_PUBKEYHASH = 0xfd;
+    public static final int OP_PUBKEY = 0xfe;
 
     // expansion
     public static final int OP_NOP1 = 0xb0;
