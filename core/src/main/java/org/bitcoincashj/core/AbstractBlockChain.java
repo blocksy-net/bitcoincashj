@@ -682,6 +682,40 @@ public abstract class AbstractBlockChain {
                                                          StoredBlock newStoredBlock, boolean first,
                                                          TransactionReceivedInBlockListener listener,
                                                          Set<Sha256Hash> falsePositives) throws VerificationException {
+        // We must send transactions to listeners ordered such that parents appear before child transactions - thus
+        // when we see multiple relevant transactions in a block, we iterate over the transactions and ensure
+        // any transaction with an input that relies on a transaction in the same block appear after the parent.
+        if ((filteredTxHashList != null ? filteredTxHashList.size() : 0) > 1)
+        {
+            checkNotNull(filteredTxn);
+            // not the prettiest sorter, but it is very fast in most cases ever encountered here
+            List<Sha256Hash> orderedTxHashList = new ArrayList<>(filteredTxHashList);
+            for (int i = 0; i < filteredTxHashList.size(); i++) {
+                Sha256Hash childHash = filteredTxHashList.get(i);
+                Transaction childTx = filteredTxn.get(childHash);
+                if (childTx == null)
+                    continue;
+
+                for (TransactionInput input : childTx.getInputs()) {
+                    Sha256Hash parentHash = input.getOutpoint().getHash();
+                    // does this transaction's input depend on a transaction in our list?
+                    if (filteredTxHashList.contains(parentHash)) {
+                        // yes; so, does the parent need to be moved above the child?
+                        int childIndex = orderedTxHashList.indexOf(childHash);
+                        if (childIndex < orderedTxHashList.indexOf(parentHash)) {
+                            // yes; so, remove the parent and place it directly above the child
+                            orderedTxHashList.remove(parentHash);
+                            orderedTxHashList.add(childIndex, parentHash);
+                            // step back one array element for the next loop, checking this parent is checked for a parent
+                            i--;
+                        }
+                    }
+                }
+            }
+            // all transactions now have their parents above them
+            filteredTxHashList = orderedTxHashList;
+        }
+
         if (block.transactions != null) {
             // If this is not the first wallet, ask for the transactions to be duplicated before being given
             // to the wallet when relevant. This ensures that if we have two connected wallets and a tx that
@@ -692,7 +726,7 @@ public abstract class AbstractBlockChain {
                     !first, falsePositives);
         } else if (filteredTxHashList != null) {
             checkNotNull(filteredTxn);
-            // We must send transactions to listeners in the order they appeared in the block - thus we iterate over the
+            // now that the transactions are ordered, we can iterate over the
             // set of hashes and call sendTransactionsToListener with individual txn when they have not already been
             // seen in loose broadcasts - otherwise notifyTransactionIsInBlock on the hash.
             int relativityOffset = 0;
