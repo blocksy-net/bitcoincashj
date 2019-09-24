@@ -84,7 +84,9 @@ public abstract class AbstractBitcoinNetParams extends NetworkParameters {
         if (!isDifficultyTransitionPoint(storedPrev.getHeight())) {
 
             // No ... so check the difficulty didn't actually change.
-            if (nextBlock.getDifficultyTarget() != prev.getDifficultyTarget())
+            if (nextBlock.getDifficultyTarget() != prev.getDifficultyTarget()
+                    // BCH fork
+                    && storedPrev.getHeight() < 478576 )
                 throw new VerificationException("Unexpected change in difficulty at height " + storedPrev.getHeight() +
                         ": " + Long.toHexString(nextBlock.getDifficultyTarget()) + " vs " +
                         Long.toHexString(prev.getDifficultyTarget()));
@@ -138,9 +140,9 @@ public abstract class AbstractBitcoinNetParams extends NetworkParameters {
         newTarget = newTarget.and(mask);
         long newTargetCompact = Utils.encodeCompactBits(newTarget);
 
-        if (newTargetCompact != receivedTargetCompact)
+        /*if (newTargetCompact != receivedTargetCompact)
             throw new VerificationException("Network provided difficulty bits do not match what was calculated: " +
-                    Long.toHexString(newTargetCompact) + " vs " + Long.toHexString(receivedTargetCompact));
+                    Long.toHexString(newTargetCompact) + " vs " + Long.toHexString(receivedTargetCompact));*/
     }
 
     @Override
