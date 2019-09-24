@@ -1394,7 +1394,7 @@ public class Script {
                         }
                         break;
                     }
-                    executeCheckLockTimeVerify(txContainingThis, (int) index, script, stack, lastCodeSepLocation, opcode, verifyFlags);
+                    executeCheckLockTimeVerify(txContainingThis, (int) index, stack, verifyFlags);
                     break;
                 case OP_CHECKSEQUENCEVERIFY:
                     if (!verifyFlags.contains(VerifyFlag.CHECKSEQUENCEVERIFY)) {
@@ -1442,9 +1442,7 @@ public class Script {
     }
 
     // This is more or less a direct translation of the code in Bitcoin Core
-    private static void executeCheckLockTimeVerify(Transaction txContainingThis, int index, Script script, LinkedList<byte[]> stack,
-                                        int lastCodeSepLocation, int opcode,
-                                        Set<VerifyFlag> verifyFlags) throws ScriptException {
+    private static void executeCheckLockTimeVerify(Transaction txContainingThis, int index, LinkedList<byte[]> stack, Set<VerifyFlag> verifyFlags) throws ScriptException {
         if (stack.size() < 1)
             throw new ScriptException("Attempted OP_CHECKLOCKTIMEVERIFY on a stack with size < 1");
 

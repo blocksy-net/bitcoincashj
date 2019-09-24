@@ -286,14 +286,16 @@ public class ScriptOpCodes {
         .put(OP_CHECKMULTISIGVERIFY, "CHECKMULTISIGVERIFY")
         .put(OP_NOP1, "NOP1")
         .put(OP_CHECKLOCKTIMEVERIFY, "CHECKLOCKTIMEVERIFY")
-        .put(OP_NOP3, "NOP3")
+        .put(OP_CHECKSEQUENCEVERIFY, "CHECKSEQUENCEVERIFY")
         .put(OP_NOP4, "NOP4")
         .put(OP_NOP5, "NOP5")
         .put(OP_NOP6, "NOP6")
         .put(OP_NOP7, "NOP7")
         .put(OP_NOP8, "NOP8")
         .put(OP_NOP9, "NOP9")
-        .put(OP_NOP10, "NOP10").build();
+        .put(OP_NOP10, "NOP10")
+        .put(OP_CHECKDATASIG, "CHECKDATASIG")
+        .put(OP_CHECKDATASIGVERIFY, "CHECKDATASIGVERIFY").build();
 
     private static final Map<String, Integer> opCodeNameMap = ImmutableMap.<String, Integer>builder()
         .put("0", OP_0)
@@ -399,7 +401,7 @@ public class ScriptOpCodes {
         .put("CHECKMULTISIGVERIFY", OP_CHECKMULTISIGVERIFY)
         .put("NOP1", OP_NOP1)
         .put("CHECKLOCKTIMEVERIFY", OP_CHECKLOCKTIMEVERIFY)
-        .put("NOP2", OP_NOP2)
+        .put("CHECKSEQUENCEVERIFY", OP_CHECKSEQUENCEVERIFY)
         .put("NOP3", OP_NOP3)
         .put("NOP4", OP_NOP4)
         .put("NOP5", OP_NOP5)
@@ -407,7 +409,9 @@ public class ScriptOpCodes {
         .put("NOP7", OP_NOP7)
         .put("NOP8", OP_NOP8)
         .put("NOP9", OP_NOP9)
-        .put("NOP10", OP_NOP10).build();
+        .put("NOP10", OP_NOP10)
+        .put("CHECKDATASIG", OP_CHECKDATASIG)
+        .put("CHECKDATASIGVERIFY", OP_CHECKDATASIGVERIFY).build();
 
     /**
      * Converts the given OpCode into a string (eg "0", "PUSHDATA", or "NON_OP(10)")
