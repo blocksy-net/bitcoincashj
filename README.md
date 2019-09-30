@@ -1,6 +1,7 @@
 ### Introduction
 
 This project implements Bitcoin Cash signature algorithm. It is based on [bitcoinj](https://github.com/bitcoinj/bitcoinj) and forked from [PR-1422](https://github.com/bitcoinj/bitcoinj/pull/1422).
+This fork has been made to maintain compatibility with latest BitCoin Cash protocol.
 
 ### Installation
 
